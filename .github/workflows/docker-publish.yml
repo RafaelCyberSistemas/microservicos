@@ -46,6 +46,17 @@ jobs:
         working-directory: ./
         run: docker-compose build
         
+      - name: Push to Docker Hub Container RegistryDocker compose Build
+        run: |
+          docker tag ${{secrets.DOCKER_USERNAME}}/naming-server:0.0.1-SNAPSHOT ${{secrets.DOCKER_PASSWORD}}/naming-server:${{git_hub_id}}
+          docker tag ${{secrets.DOCKER_USERNAME}}/api-gateway:0.0.1-SNAPSHOT ${{secrets.DOCKER_PASSWORD}}/api-gateway:${{git_hub_id}}
+          docker tag ${{secrets.DOCKER_USERNAME}}/cambio-servicer:latest ${{secrets.DOCKER_PASSWORD}}/cambio-service:${{git_hub_id}}
+          docker tag ${{secrets.DOCKER_USERNAME}}/book-service:latest ${{secrets.DOCKER_PASSWORD}}/book-service:${{git_hub_id}}
+          docker push ${{secrets.DOCKER_PASSWORD}}/naming-server:${{git_hub_id}}
+          docker push ${{secrets.DOCKER_PASSWORD}}/api-gateway:${{git_hub_id}}
+          docker push ${{secrets.DOCKER_PASSWORD}}/cambio-service:${{git_hub_id}}
+          docker push ${{secrets.DOCKER_PASSWORD}}/book-service:${{git_hub_id}}
+        
         
 
     
